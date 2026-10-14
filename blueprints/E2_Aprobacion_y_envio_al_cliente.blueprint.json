@@ -1,0 +1,1396 @@
+{
+    "name": "E2 - Aprobación y envío al cliente",
+    "flow": [
+        {
+            "id": 1,
+            "module": "airtable:TriggerWatchRecords",
+            "version": 3,
+            "parameters": {
+                "base": "appHRyWw9WN7XRVTP",
+                "view": "",
+                "table": "tblFjdIEQPcNSyYuP",
+                "config": {
+                    "labelField": "Estado",
+                    "triggerField": "Ultima_Mod_Estado"
+                },
+                "formula": "{Estado}='Aprobado por Humano'",
+                "maxRecords": 10,
+                "__IMTCONN__": 10540738,
+                "useColumnId": false
+            },
+            "mapper": {},
+            "metadata": {
+                "designer": {
+                    "x": 0,
+                    "y": 0
+                },
+                "setupValidation": {
+                    "result": {
+                        "valid": true,
+                        "fields": []
+                    },
+                    "version": 1,
+                    "configuration": "37acae84daef0197"
+                },
+                "restore": {
+                    "parameters": {
+                        "base": {
+                            "label": "Automatización de Estudio Contable "
+                        },
+                        "view": {
+                            "label": "Empty"
+                        },
+                        "table": {
+                            "label": "Vencimientos"
+                        },
+                        "config": {
+                            "nested": {
+                                "labelField": {
+                                    "label": "Estado"
+                                },
+                                "triggerField": {
+                                    "label": "Ultima_Mod_Estado"
+                                }
+                            }
+                        },
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "airtable3"
+                            },
+                            "label": "Anse's Airtable Token or Key connection (User ID: usry0i9WRmTsH426o)"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:airtable3,airtable2",
+                        "label": "Connection",
+                        "required": true
+                    },
+                    {
+                        "name": "base",
+                        "type": "select",
+                        "label": "Base",
+                        "required": true
+                    },
+                    {
+                        "name": "useColumnId",
+                        "type": "boolean",
+                        "label": "Use column ID",
+                        "required": true
+                    },
+                    {
+                        "name": "table",
+                        "type": "select",
+                        "label": "Table",
+                        "required": true
+                    },
+                    {
+                        "name": "config",
+                        "spec": [
+                            {
+                                "name": "triggerField",
+                                "type": "select",
+                                "label": "Trigger field",
+                                "required": true
+                            },
+                            {
+                                "name": "triggerField",
+                                "type": "hidden"
+                            },
+                            {
+                                "name": "labelField",
+                                "type": "select",
+                                "label": "Label field",
+                                "required": true
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Trigger configuration"
+                    },
+                    {
+                        "name": "maxRecords",
+                        "type": "integer",
+                        "label": "Limit",
+                        "required": true
+                    },
+                    {
+                        "name": "view",
+                        "type": "select",
+                        "label": "View"
+                    },
+                    {
+                        "name": "formula",
+                        "type": "text",
+                        "label": "Formula"
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "id",
+                        "type": "text",
+                        "label": "ID"
+                    },
+                    {
+                        "name": "createdTime",
+                        "type": "date",
+                        "label": "Created time"
+                    },
+                    {
+                        "name": "ID_Vencimiento",
+                        "type": "number",
+                        "label": "ID_Vencimiento"
+                    },
+                    {
+                        "name": "Clientes",
+                        "spec": {
+                            "type": "text",
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Clientes"
+                    },
+                    {
+                        "name": "Tipo_Impuesto",
+                        "type": "text",
+                        "label": "Tipo_Impuesto"
+                    },
+                    {
+                        "name": "Fecha_Vencimiento",
+                        "time": false,
+                        "type": "date",
+                        "label": "Fecha_Vencimiento"
+                    },
+                    {
+                        "name": "Monto",
+                        "type": "number",
+                        "label": "Monto"
+                    },
+                    {
+                        "name": "Documento_Origen",
+                        "spec": [
+                            {
+                                "name": "id",
+                                "type": "text",
+                                "label": "ID"
+                            },
+                            {
+                                "name": "width",
+                                "type": "uinteger",
+                                "label": "Width"
+                            },
+                            {
+                                "name": "height",
+                                "type": "uinteger",
+                                "label": "Height"
+                            },
+                            {
+                                "name": "url",
+                                "type": "url",
+                                "label": "URL"
+                            },
+                            {
+                                "name": "filename",
+                                "type": "filename",
+                                "label": "File name"
+                            },
+                            {
+                                "name": "size",
+                                "type": "uinteger",
+                                "label": "Size"
+                            },
+                            {
+                                "name": "type",
+                                "type": "text",
+                                "label": "MIME type"
+                            },
+                            {
+                                "name": "thumbnails",
+                                "spec": [
+                                    {
+                                        "name": "small",
+                                        "spec": [
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "width",
+                                                "type": "uinteger",
+                                                "label": "Width"
+                                            },
+                                            {
+                                                "name": "height",
+                                                "type": "uinteger",
+                                                "label": "Height"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Small"
+                                    },
+                                    {
+                                        "name": "large",
+                                        "spec": [
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "width",
+                                                "type": "uinteger",
+                                                "label": "Width"
+                                            },
+                                            {
+                                                "name": "height",
+                                                "type": "uinteger",
+                                                "label": "Height"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Large"
+                                    },
+                                    {
+                                        "name": "full",
+                                        "spec": [
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "width",
+                                                "type": "uinteger",
+                                                "label": "Width"
+                                            },
+                                            {
+                                                "name": "height",
+                                                "type": "uinteger",
+                                                "label": "Height"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Full"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Thumbnails"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Documento_Origen"
+                    },
+                    {
+                        "name": "Estado",
+                        "type": "text",
+                        "label": "Estado"
+                    },
+                    {
+                        "name": "Fecha_Envio",
+                        "time": false,
+                        "type": "date",
+                        "label": "Fecha_Envio"
+                    },
+                    {
+                        "name": "Fecha_Pago",
+                        "time": false,
+                        "type": "date",
+                        "label": "Fecha_Pago"
+                    },
+                    {
+                        "name": "Creado",
+                        "type": "date",
+                        "label": "Creado"
+                    },
+                    {
+                        "name": "Ultima_Mod_Estado",
+                        "type": "date",
+                        "label": "Ultima_Mod_Estado"
+                    },
+                    {
+                        "name": "Vencimiento_Anterior",
+                        "spec": {
+                            "type": "text",
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Vencimiento_Anterior"
+                    },
+                    {
+                        "name": "Regenerado_como",
+                        "spec": {
+                            "type": "text",
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Regenerado_como"
+                    },
+                    {
+                        "name": "Errores",
+                        "spec": {
+                            "type": "text",
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Errores"
+                    },
+                    {
+                        "name": "Overdue days count",
+                        "type": "number",
+                        "label": "Overdue days count"
+                    },
+                    {
+                        "name": "Tax type risk level",
+                        "type": "text",
+                        "label": "Tax type risk level"
+                    },
+                    {
+                        "name": "Tax payment status summary",
+                        "type": "text",
+                        "label": "Tax payment status summary"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 3,
+            "module": "airtable:ActionGetRecord",
+            "version": 3,
+            "parameters": {
+                "__IMTCONN__": 10540738
+            },
+            "mapper": {
+                "id": "{{1.Clientes[]}}",
+                "base": "appHRyWw9WN7XRVTP",
+                "table": "tblwRlCjCgeehm0Pu",
+                "useColumnId": false
+            },
+            "metadata": {
+                "designer": {
+                    "x": 300,
+                    "y": 0
+                },
+                "setupValidation": {
+                    "result": {
+                        "valid": true,
+                        "fields": []
+                    },
+                    "version": 1,
+                    "configuration": "bd9ea62433d44fe1"
+                },
+                "restore": {
+                    "expect": {
+                        "base": {
+                            "mode": "chose",
+                            "label": "Automatización de Estudio Contable "
+                        },
+                        "table": {
+                            "mode": "chose",
+                            "label": "Clientes"
+                        },
+                        "useColumnId": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "airtable3"
+                            },
+                            "label": "Anse's Airtable Token or Key connection (User ID: usry0i9WRmTsH426o)"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:airtable3,airtable2",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "base",
+                        "type": "select",
+                        "label": "Base",
+                        "required": true
+                    },
+                    {
+                        "name": "useColumnId",
+                        "type": "boolean",
+                        "label": "Use column ID",
+                        "required": true
+                    },
+                    {
+                        "name": "table",
+                        "type": "select",
+                        "label": "Table",
+                        "required": true
+                    },
+                    {
+                        "name": "id",
+                        "type": "text",
+                        "label": "Record ID",
+                        "required": true
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "id",
+                        "type": "text",
+                        "label": "ID"
+                    },
+                    {
+                        "name": "createdTime",
+                        "type": "date",
+                        "label": "Created time"
+                    },
+                    {
+                        "name": "Cliente",
+                        "type": "text",
+                        "label": "Cliente"
+                    },
+                    {
+                        "name": "CUIT",
+                        "type": "text",
+                        "label": "CUIT"
+                    },
+                    {
+                        "name": "Terminación",
+                        "type": "text",
+                        "label": "Terminación"
+                    },
+                    {
+                        "name": "Email",
+                        "type": "text",
+                        "label": "Email"
+                    },
+                    {
+                        "name": "Telegram_ID",
+                        "type": "text",
+                        "label": "Telegram_ID"
+                    },
+                    {
+                        "name": "Tipo_Honorario",
+                        "type": "text",
+                        "label": "Tipo_Honorario"
+                    },
+                    {
+                        "name": "Monto_Fijo",
+                        "type": "number",
+                        "label": "Monto_Fijo"
+                    },
+                    {
+                        "name": "Vencimientos",
+                        "spec": {
+                            "type": "text",
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Vencimientos"
+                    },
+                    {
+                        "name": "Honorarios",
+                        "spec": {
+                            "type": "text",
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Honorarios"
+                    },
+                    {
+                        "name": "Informes_Mensuales",
+                        "spec": {
+                            "type": "text",
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Informes_Mensuales"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 4,
+            "module": "telegram:SendReplyMessage",
+            "version": 1,
+            "parameters": {
+                "__IMTCONN__": 11907828
+            },
+            "mapper": {
+                "text": "Hola {{3.Cliente}}, te escribimos del estudio contable.\r\nTenés un pago a abonar:\r\nImpuesto: {{1.Tipo_Impuesto}}\r\nMonto: ${{1.Monto}}\r\nYa tenés el VEP disponible; cualquier duda respondenos por acá.",
+                "chatId": "{{3.Telegram_ID}}",
+                "parseMode": "",
+                "replyMarkup": "",
+                "messageThreadId": "",
+                "replyToMessageId": "",
+                "replyMarkupAssembleType": "reply_markup_enter"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 600,
+                    "y": 0
+                },
+                "setupValidation": {
+                    "result": {
+                        "valid": true,
+                        "fields": []
+                    },
+                    "version": 1,
+                    "configuration": "628990b2f57e7c2b"
+                },
+                "restore": {
+                    "expect": {
+                        "parseMode": {
+                            "label": "Empty"
+                        },
+                        "disableNotification": {
+                            "mode": "chose"
+                        },
+                        "replyMarkupAssembleType": {
+                            "label": "Enter the Reply Markup"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "telegram"
+                            },
+                            "label": "Anse's Telegram Bot connection"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:telegram",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "chatId",
+                        "type": "text",
+                        "label": "Chat ID",
+                        "required": true
+                    },
+                    {
+                        "name": "text",
+                        "type": "text",
+                        "label": "Text",
+                        "required": true
+                    },
+                    {
+                        "name": "messageThreadId",
+                        "type": "number",
+                        "label": "Message Thread ID"
+                    },
+                    {
+                        "name": "parseMode",
+                        "type": "select",
+                        "label": "Parse Mode",
+                        "validate": {
+                            "enum": [
+                                "Markdown",
+                                "HTML"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "disableNotification",
+                        "type": "boolean",
+                        "label": "Disable Notifications"
+                    },
+                    {
+                        "name": "disableWebPagePreview",
+                        "type": "boolean",
+                        "label": "Disable Link Previews"
+                    },
+                    {
+                        "name": "replyToMessageId",
+                        "type": "number",
+                        "label": "Original Message ID"
+                    },
+                    {
+                        "name": "replyMarkupAssembleType",
+                        "type": "select",
+                        "label": "Enter/Assemble the Reply Markup Field",
+                        "validate": {
+                            "enum": [
+                                "reply_markup_enter",
+                                "reply_markup_assemble"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "replyMarkup",
+                        "type": "text",
+                        "label": "Reply Markup"
+                    }
+                ]
+            },
+            "onerror": [
+                {
+                    "id": 6,
+                    "module": "airtable:ActionCreateRecord",
+                    "version": 3,
+                    "parameters": {
+                        "__IMTCONN__": 10540738
+                    },
+                    "mapper": {
+                        "base": "appHRyWw9WN7XRVTP",
+                        "table": "tblZo1K35gR4E5MBQ",
+                        "record": {
+                            "fld6o4pbnwJOI8iEa": "Envío al cliente",
+                            "fld8JKi6dU375eKuW": "API IA"
+                        },
+                        "typecast": false,
+                        "useColumnId": false
+                    },
+                    "metadata": {
+                        "designer": {
+                            "x": 900,
+                            "y": 150
+                        },
+                        "setupValidation": {
+                            "result": {
+                                "valid": true,
+                                "fields": []
+                            },
+                            "version": 1,
+                            "configuration": "5ac22796c487573c"
+                        },
+                        "restore": {
+                            "expect": {
+                                "base": {
+                                    "label": "Automatización de Estudio Contable "
+                                },
+                                "table": {
+                                    "label": "Errores",
+                                    "nested": [
+                                        {
+                                            "name": "record",
+                                            "spec": [
+                                                {
+                                                    "mode": "edit",
+                                                    "name": "fld6o4pbnwJOI8iEa",
+                                                    "type": "select",
+                                                    "label": "Escenario_Origen",
+                                                    "dynamic": true,
+                                                    "options": [
+                                                        {
+                                                            "label": "Extracción",
+                                                            "value": "Extracción"
+                                                        },
+                                                        {
+                                                            "label": "Envío al cliente",
+                                                            "value": "Envío al cliente"
+                                                        },
+                                                        {
+                                                            "label": "Informe mensual",
+                                                            "value": "Informe mensual"
+                                                        }
+                                                    ],
+                                                    "validate": false
+                                                },
+                                                {
+                                                    "mode": "edit",
+                                                    "name": "fld8JKi6dU375eKuW",
+                                                    "type": "select",
+                                                    "label": "Tipo_Error",
+                                                    "dynamic": true,
+                                                    "options": [
+                                                        {
+                                                            "label": "API IA",
+                                                            "value": "API IA"
+                                                        },
+                                                        {
+                                                            "label": "Webhook",
+                                                            "value": "Webhook"
+                                                        },
+                                                        {
+                                                            "label": "Formato de Datos",
+                                                            "value": "Formato de Datos"
+                                                        },
+                                                        {
+                                                            "label": "Otro",
+                                                            "value": "Otro"
+                                                        }
+                                                    ],
+                                                    "validate": false
+                                                },
+                                                {
+                                                    "name": "fldfuXj4PXORbxQos",
+                                                    "type": "text",
+                                                    "label": "Detalle",
+                                                    "multiline": true
+                                                },
+                                                {
+                                                    "name": "fldSMtPl9iMDbuynh",
+                                                    "spec": {
+                                                        "type": "text",
+                                                        "label": "Record ID"
+                                                    },
+                                                    "type": "array",
+                                                    "label": "Vencimiento_Relacionado"
+                                                },
+                                                {
+                                                    "name": "flddS1xViO54u9OyJ",
+                                                    "spec": {
+                                                        "type": "text",
+                                                        "label": "Record ID"
+                                                    },
+                                                    "type": "array",
+                                                    "label": "Honorario_relacionado"
+                                                },
+                                                {
+                                                    "name": "fldkTt9CbBzQaBuOs",
+                                                    "spec": {
+                                                        "type": "text",
+                                                        "label": "Record ID"
+                                                    },
+                                                    "type": "array",
+                                                    "label": "Informe_Relacionado"
+                                                },
+                                                {
+                                                    "name": "fld9jLywV2sVQ7w2Q",
+                                                    "type": "boolean",
+                                                    "label": "Resuelto"
+                                                }
+                                            ],
+                                            "type": "collection",
+                                            "label": "Record"
+                                        }
+                                    ]
+                                },
+                                "record": {
+                                    "nested": {
+                                        "fld6o4pbnwJOI8iEa": {
+                                            "mode": "chose",
+                                            "label": "Envío al cliente"
+                                        },
+                                        "fld8JKi6dU375eKuW": {
+                                            "mode": "chose",
+                                            "label": "API IA"
+                                        },
+                                        "fld9jLywV2sVQ7w2Q": {
+                                            "mode": "chose"
+                                        },
+                                        "fldSMtPl9iMDbuynh": {
+                                            "mode": "chose"
+                                        },
+                                        "flddS1xViO54u9OyJ": {
+                                            "mode": "chose"
+                                        },
+                                        "fldkTt9CbBzQaBuOs": {
+                                            "mode": "chose"
+                                        }
+                                    }
+                                },
+                                "typecast": {
+                                    "mode": "chose"
+                                },
+                                "useColumnId": {
+                                    "mode": "chose"
+                                }
+                            },
+                            "parameters": {
+                                "__IMTCONN__": {
+                                    "data": {
+                                        "scoped": "true",
+                                        "connection": "airtable3"
+                                    },
+                                    "label": "Anse's Airtable Token or Key connection (User ID: usry0i9WRmTsH426o)"
+                                }
+                            }
+                        },
+                        "parameters": [
+                            {
+                                "name": "__IMTCONN__",
+                                "type": "account:airtable3,airtable2",
+                                "label": "Connection",
+                                "required": true
+                            }
+                        ],
+                        "expect": [
+                            {
+                                "name": "base",
+                                "type": "select",
+                                "label": "Base",
+                                "required": true
+                            },
+                            {
+                                "name": "typecast",
+                                "type": "boolean",
+                                "label": "Smart links",
+                                "required": true
+                            },
+                            {
+                                "name": "useColumnId",
+                                "type": "boolean",
+                                "label": "Use column ID",
+                                "required": true
+                            },
+                            {
+                                "name": "table",
+                                "type": "select",
+                                "label": "Table",
+                                "required": true
+                            },
+                            {
+                                "name": "record",
+                                "spec": [
+                                    {
+                                        "mode": "edit",
+                                        "name": "fld6o4pbnwJOI8iEa",
+                                        "type": "select",
+                                        "label": "Escenario_Origen"
+                                    },
+                                    {
+                                        "mode": "edit",
+                                        "name": "fld8JKi6dU375eKuW",
+                                        "type": "select",
+                                        "label": "Tipo_Error"
+                                    },
+                                    {
+                                        "name": "fldfuXj4PXORbxQos",
+                                        "type": "text",
+                                        "label": "Detalle"
+                                    },
+                                    {
+                                        "name": "fldSMtPl9iMDbuynh",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "text",
+                                            "label": "Record ID"
+                                        },
+                                        "type": "array",
+                                        "label": "Vencimiento_Relacionado"
+                                    },
+                                    {
+                                        "name": "flddS1xViO54u9OyJ",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "text",
+                                            "label": "Record ID"
+                                        },
+                                        "type": "array",
+                                        "label": "Honorario_relacionado"
+                                    },
+                                    {
+                                        "name": "fldkTt9CbBzQaBuOs",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "text",
+                                            "label": "Record ID"
+                                        },
+                                        "type": "array",
+                                        "label": "Informe_Relacionado"
+                                    },
+                                    {
+                                        "name": "fld9jLywV2sVQ7w2Q",
+                                        "type": "boolean",
+                                        "label": "Resuelto"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Record"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "module": "airtable:ActionUpdateRecords",
+            "version": 3,
+            "parameters": {
+                "__IMTCONN__": 10540738
+            },
+            "mapper": {
+                "id": "{{1.id}}",
+                "base": "appHRyWw9WN7XRVTP",
+                "table": "tblFjdIEQPcNSyYuP",
+                "record": {
+                    "fld313kSYf3EHT2LZ": "{{now}}",
+                    "fldF4iJey816YdgOL": "Enviado al Cliente"
+                },
+                "typecast": false,
+                "useColumnId": false
+            },
+            "metadata": {
+                "designer": {
+                    "x": 900,
+                    "y": -150
+                },
+                "setupValidation": {
+                    "result": {
+                        "valid": true,
+                        "fields": []
+                    },
+                    "version": 1,
+                    "configuration": "31dfcf1bb2b3b3b9"
+                },
+                "restore": {
+                    "expect": {
+                        "base": {
+                            "label": "Automatización de Estudio Contable "
+                        },
+                        "table": {
+                            "label": "Vencimientos"
+                        },
+                        "record": {
+                            "nested": {
+                                "fld5FE3VOiA0kiSoZ": {
+                                    "mode": "chose"
+                                },
+                                "fldF4iJey816YdgOL": {
+                                    "mode": "chose",
+                                    "label": "Enviado al Cliente"
+                                },
+                                "fldIxJHQxQUQkSNvs": {
+                                    "mode": "chose"
+                                },
+                                "fldOn09or0I5Ks6vg": {
+                                    "mode": "edit"
+                                },
+                                "fldUPnYZRaaWdp3Un": {
+                                    "mode": "chose"
+                                },
+                                "fldcC8gOrAuzzvGVG": {
+                                    "mode": "chose"
+                                },
+                                "fldiAGbaA4E8gH36s": {
+                                    "mode": "edit"
+                                },
+                                "fldyM0bYET7grTMBy": {
+                                    "mode": "chose"
+                                }
+                            }
+                        },
+                        "typecast": {
+                            "mode": "chose"
+                        },
+                        "useColumnId": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "airtable3"
+                            },
+                            "label": "Anse's Airtable Token or Key connection (User ID: usry0i9WRmTsH426o)"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:airtable3,airtable2",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "base",
+                        "type": "select",
+                        "label": "Base",
+                        "required": true
+                    },
+                    {
+                        "name": "typecast",
+                        "type": "boolean",
+                        "label": "Smart links",
+                        "required": true
+                    },
+                    {
+                        "name": "useColumnId",
+                        "type": "boolean",
+                        "label": "Use column ID",
+                        "required": true
+                    },
+                    {
+                        "name": "table",
+                        "type": "select",
+                        "label": "Table",
+                        "required": true
+                    },
+                    {
+                        "name": "id",
+                        "type": "text",
+                        "label": "Record ID",
+                        "required": true
+                    },
+                    {
+                        "name": "record",
+                        "spec": [
+                            {
+                                "name": "fldyM0bYET7grTMBy",
+                                "spec": {
+                                    "name": "value",
+                                    "type": "text",
+                                    "label": "Record ID"
+                                },
+                                "type": "array",
+                                "label": "Clientes"
+                            },
+                            {
+                                "mode": "edit",
+                                "name": "fldiAGbaA4E8gH36s",
+                                "type": "select",
+                                "label": "Tipo_Impuesto"
+                            },
+                            {
+                                "name": "fld6tRzJiI69644xn",
+                                "time": false,
+                                "type": "date",
+                                "label": "Fecha_Vencimiento"
+                            },
+                            {
+                                "name": "fldDPvaKY69GwTltr",
+                                "type": "number",
+                                "label": "Monto"
+                            },
+                            {
+                                "name": "fldUPnYZRaaWdp3Un",
+                                "spec": [
+                                    {
+                                        "name": "url",
+                                        "type": "text",
+                                        "label": "File URL"
+                                    },
+                                    {
+                                        "name": "filename",
+                                        "type": "filename",
+                                        "label": "File name"
+                                    }
+                                ],
+                                "type": "array",
+                                "label": "Documento_Origen"
+                            },
+                            {
+                                "mode": "edit",
+                                "name": "fldF4iJey816YdgOL",
+                                "type": "select",
+                                "label": "Estado"
+                            },
+                            {
+                                "name": "fld313kSYf3EHT2LZ",
+                                "time": false,
+                                "type": "date",
+                                "label": "Fecha_Envio"
+                            },
+                            {
+                                "name": "fldyuyXd995UqYJsq",
+                                "time": false,
+                                "type": "date",
+                                "label": "Fecha_Pago"
+                            },
+                            {
+                                "name": "fld5FE3VOiA0kiSoZ",
+                                "spec": {
+                                    "name": "value",
+                                    "type": "text",
+                                    "label": "Record ID"
+                                },
+                                "type": "array",
+                                "label": "Vencimiento_Anterior"
+                            },
+                            {
+                                "name": "fldIxJHQxQUQkSNvs",
+                                "spec": {
+                                    "name": "value",
+                                    "type": "text",
+                                    "label": "Record ID"
+                                },
+                                "type": "array",
+                                "label": "Regenerado_como"
+                            },
+                            {
+                                "name": "fldcC8gOrAuzzvGVG",
+                                "spec": {
+                                    "name": "value",
+                                    "type": "text",
+                                    "label": "Record ID"
+                                },
+                                "type": "array",
+                                "label": "Errores"
+                            },
+                            {
+                                "name": "fldsNtwiJamsoBsbX",
+                                "type": "number",
+                                "label": "Overdue days count"
+                            },
+                            {
+                                "mode": "edit",
+                                "name": "fldOn09or0I5Ks6vg",
+                                "type": "select",
+                                "label": "Tax type risk level"
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Record"
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "id",
+                        "type": "text",
+                        "label": "ID"
+                    },
+                    {
+                        "name": "createdTime",
+                        "type": "date",
+                        "label": "Created time"
+                    },
+                    {
+                        "name": "ID_Vencimiento",
+                        "type": "number",
+                        "label": "ID_Vencimiento"
+                    },
+                    {
+                        "name": "Clientes",
+                        "spec": {
+                            "type": "text",
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Clientes"
+                    },
+                    {
+                        "name": "Tipo_Impuesto",
+                        "type": "text",
+                        "label": "Tipo_Impuesto"
+                    },
+                    {
+                        "name": "Fecha_Vencimiento",
+                        "time": false,
+                        "type": "date",
+                        "label": "Fecha_Vencimiento"
+                    },
+                    {
+                        "name": "Monto",
+                        "type": "number",
+                        "label": "Monto"
+                    },
+                    {
+                        "name": "Documento_Origen",
+                        "spec": [
+                            {
+                                "name": "id",
+                                "type": "text",
+                                "label": "ID"
+                            },
+                            {
+                                "name": "width",
+                                "type": "uinteger",
+                                "label": "Width"
+                            },
+                            {
+                                "name": "height",
+                                "type": "uinteger",
+                                "label": "Height"
+                            },
+                            {
+                                "name": "url",
+                                "type": "url",
+                                "label": "URL"
+                            },
+                            {
+                                "name": "filename",
+                                "type": "filename",
+                                "label": "File name"
+                            },
+                            {
+                                "name": "size",
+                                "type": "uinteger",
+                                "label": "Size"
+                            },
+                            {
+                                "name": "type",
+                                "type": "text",
+                                "label": "MIME type"
+                            },
+                            {
+                                "name": "thumbnails",
+                                "spec": [
+                                    {
+                                        "name": "small",
+                                        "spec": [
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "width",
+                                                "type": "uinteger",
+                                                "label": "Width"
+                                            },
+                                            {
+                                                "name": "height",
+                                                "type": "uinteger",
+                                                "label": "Height"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Small"
+                                    },
+                                    {
+                                        "name": "large",
+                                        "spec": [
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "width",
+                                                "type": "uinteger",
+                                                "label": "Width"
+                                            },
+                                            {
+                                                "name": "height",
+                                                "type": "uinteger",
+                                                "label": "Height"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Large"
+                                    },
+                                    {
+                                        "name": "full",
+                                        "spec": [
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "width",
+                                                "type": "uinteger",
+                                                "label": "Width"
+                                            },
+                                            {
+                                                "name": "height",
+                                                "type": "uinteger",
+                                                "label": "Height"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Full"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Thumbnails"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Documento_Origen"
+                    },
+                    {
+                        "name": "Estado",
+                        "type": "text",
+                        "label": "Estado"
+                    },
+                    {
+                        "name": "Fecha_Envio",
+                        "time": false,
+                        "type": "date",
+                        "label": "Fecha_Envio"
+                    },
+                    {
+                        "name": "Fecha_Pago",
+                        "time": false,
+                        "type": "date",
+                        "label": "Fecha_Pago"
+                    },
+                    {
+                        "name": "Creado",
+                        "type": "date",
+                        "label": "Creado"
+                    },
+                    {
+                        "name": "Ultima_Mod_Estado",
+                        "type": "date",
+                        "label": "Ultima_Mod_Estado"
+                    },
+                    {
+                        "name": "Vencimiento_Anterior",
+                        "spec": {
+                            "type": "text",
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Vencimiento_Anterior"
+                    },
+                    {
+                        "name": "Regenerado_como",
+                        "spec": {
+                            "type": "text",
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Regenerado_como"
+                    },
+                    {
+                        "name": "Errores",
+                        "spec": {
+                            "type": "text",
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Errores"
+                    },
+                    {
+                        "name": "Overdue days count",
+                        "type": "number",
+                        "label": "Overdue days count"
+                    },
+                    {
+                        "name": "Tax type risk level",
+                        "type": "text",
+                        "label": "Tax type risk level"
+                    },
+                    {
+                        "name": "Tax payment status summary",
+                        "type": "text",
+                        "label": "Tax payment status summary"
+                    }
+                ]
+            }
+        }
+    ],
+    "metadata": {
+        "instant": false,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "slots": null,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "eu1.make.com",
+        "notes": []
+    }
+}

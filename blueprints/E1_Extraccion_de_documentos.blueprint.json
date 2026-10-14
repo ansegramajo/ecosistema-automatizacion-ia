@@ -1,0 +1,2705 @@
+{
+    "name": "E1 - Extracción de documentos",
+    "flow": [
+        {
+            "id": 1,
+            "module": "google-drive:watchFilesInAFolder",
+            "version": 4,
+            "parameters": {
+                "limit": 2,
+                "select": "create",
+                "folderId": "/1ZtdALfjjMkDmCZC_Gf0GymKhx-DgZM7E",
+                "mimeType": "all",
+                "__IMTCONN__": 10540781,
+                "destination": "drive"
+            },
+            "mapper": {},
+            "metadata": {
+                "designer": {
+                    "x": -210,
+                    "y": 9
+                },
+                "setupValidation": {
+                    "version": 1,
+                    "configuration": "9e4d1e356fc0b81e",
+                    "result": {
+                        "valid": true,
+                        "fields": []
+                    }
+                },
+                "restore": {
+                    "parameters": {
+                        "select": {
+                            "label": "By Created Time"
+                        },
+                        "folderId": {
+                            "path": [
+                                "ENTRADA VEP"
+                            ]
+                        },
+                        "mimeType": {
+                            "label": "All"
+                        },
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "google-drive"
+                            },
+                            "label": "Anse's Google Drive connection (ansegramajo@gmail.com)"
+                        },
+                        "destination": {
+                            "label": "My Drive"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:google-restricted,google-drive",
+                        "label": "Connection",
+                        "required": true
+                    },
+                    {
+                        "name": "select",
+                        "type": "select",
+                        "label": "Watch Files",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "create",
+                                "modify"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "destination",
+                        "type": "select",
+                        "label": "Choose a Drive",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "drive",
+                                "share",
+                                "team"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "mimeType",
+                        "type": "select",
+                        "label": "File Types to Watch",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "all",
+                                "document",
+                                "spreadsheet",
+                                "slide",
+                                "drawing"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "type": "uinteger",
+                        "label": "Limit",
+                        "required": true
+                    },
+                    {
+                        "name": "folderId",
+                        "type": "folder",
+                        "label": "Select the Folder to be Watched",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        {
+            "id": 2,
+            "module": "google-drive:getAFile",
+            "version": 4,
+            "parameters": {
+                "__IMTCONN__": 10540781
+            },
+            "mapper": {
+                "file": "{{1.id}}",
+                "select": "map",
+                "formatDrawings": "image/jpeg",
+                "formatDocuments": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                "formatSpreadsheets": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "formatPresentations": "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 74,
+                    "y": 18
+                },
+                "setupValidation": {
+                    "result": {
+                        "valid": true,
+                        "fields": []
+                    },
+                    "version": 1,
+                    "configuration": "31ee5a3f0326d7e"
+                },
+                "restore": {
+                    "expect": {
+                        "select": {
+                            "label": "Enter manually"
+                        },
+                        "formatDrawings": {
+                            "label": "JPEG"
+                        },
+                        "formatDocuments": {
+                            "label": "MS Word Document"
+                        },
+                        "formatSpreadsheets": {
+                            "label": "MS Excel"
+                        },
+                        "formatPresentations": {
+                            "label": "MS PowerPoint"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "google-drive"
+                            },
+                            "label": "Anse's Google Drive connection (ansegramajo@gmail.com)"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:google-restricted,google-drive",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "select",
+                        "type": "select",
+                        "label": "Enter a File ID",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "map",
+                                "value"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "formatDocuments",
+                        "type": "select",
+                        "label": "Convert Google Documents Files to Format",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                                "application/pdf",
+                                "application/vnd.oasis.opendocument.text",
+                                "text/html",
+                                "text/plain",
+                                "application/rtf",
+                                "text/markdown"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "formatSpreadsheets",
+                        "type": "select",
+                        "label": "Convert Google Spreadsheets Files to Format",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                "application/x-vnd.oasis.opendocument.spreadsheet",
+                                "application/pdf",
+                                "text/csv"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "formatPresentations",
+                        "type": "select",
+                        "label": "Convert Google Slides Files to Format",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+                                "application/pdf"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "formatDrawings",
+                        "type": "select",
+                        "label": "Convert Google Drawings Files to Format",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "image/jpeg",
+                                "image/png",
+                                "image/svg+xml",
+                                "application/pdf"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "file",
+                        "type": "text",
+                        "label": "File ID",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        {
+            "id": 3,
+            "module": "google-drive:uploadAFile",
+            "version": 4,
+            "parameters": {
+                "__IMTCONN__": 11826099
+            },
+            "mapper": {
+                "data": "{{2.data}}",
+                "select": "value",
+                "convert": true,
+                "filename": "{{2.name}}",
+                "folderId": "/1afYGDPmXz06--eZnuVYuTPl-jJ3iu1fR",
+                "targetType": "application/vnd.google-apps.document",
+                "destination": "drive"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 388,
+                    "y": 16
+                },
+                "setupValidation": {
+                    "result": {
+                        "valid": true,
+                        "fields": []
+                    },
+                    "version": 1,
+                    "configuration": "35ffbce0bcf94456"
+                },
+                "restore": {
+                    "expect": {
+                        "select": {
+                            "label": "Select from the list"
+                        },
+                        "folderId": {
+                            "mode": "chose",
+                            "path": [
+                                "VEP PROCESADOS"
+                            ]
+                        },
+                        "targetType": {
+                            "label": "application/vnd.google-apps.document"
+                        },
+                        "destination": {
+                            "label": "My Drive"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "google-drive"
+                            },
+                            "label": "Anse's Google Drive connection (ansegramajo@gmail.com)"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:google-restricted,google-drive",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "select",
+                        "type": "select",
+                        "label": "Enter a Folder ID",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "map",
+                                "value"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "title",
+                        "type": "text",
+                        "label": "New File Name"
+                    },
+                    {
+                        "name": "filename",
+                        "type": "text",
+                        "label": "File Name",
+                        "required": true
+                    },
+                    {
+                        "name": "data",
+                        "type": "buffer",
+                        "label": "Data",
+                        "required": true
+                    },
+                    {
+                        "name": "convert",
+                        "type": "boolean",
+                        "label": "Convert a File",
+                        "required": true
+                    },
+                    {
+                        "name": "destination",
+                        "type": "select",
+                        "label": "New Drive Location",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "drive",
+                                "share",
+                                "team"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "folderId",
+                        "type": "folder",
+                        "label": "New Folder Location",
+                        "required": true
+                    },
+                    {
+                        "name": "targetType",
+                        "type": "select",
+                        "label": "Target Google File Type",
+                        "required": true
+                    }
+                ],
+                "advanced": true
+            }
+        },
+        {
+            "id": 14,
+            "module": "google-docs:getADocument",
+            "version": 1,
+            "parameters": {
+                "__IMTCONN__": 10540263
+            },
+            "mapper": {
+                "filter": "image",
+                "select": "map",
+                "document": "{{3.id}}",
+                "includeTabsContent": false
+            },
+            "metadata": {
+                "designer": {
+                    "x": 647,
+                    "y": 14
+                },
+                "setupValidation": {
+                    "result": {
+                        "valid": true,
+                        "fields": []
+                    },
+                    "version": 1,
+                    "configuration": "5a68462b05e1d3ee"
+                },
+                "restore": {
+                    "expect": {
+                        "filter": {
+                            "label": "Image",
+                            "collapsed": true
+                        },
+                        "select": {
+                            "label": "By Mapping"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "google"
+                            },
+                            "label": "Anse's Google connection (ansegramajo@gmail.com)"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:google",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "select",
+                        "type": "select",
+                        "label": "Get Content of a Document",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "map",
+                                "dropdown"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "includeTabsContent",
+                        "type": "boolean",
+                        "label": "Include Tabs Content",
+                        "required": true
+                    },
+                    {
+                        "name": "filter",
+                        "type": "select",
+                        "label": "Filter",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "image",
+                                "drawing",
+                                "chart"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "document",
+                        "type": "text",
+                        "label": "Document ID",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        {
+            "id": 4,
+            "module": "util:SetVariable2",
+            "version": 1,
+            "parameters": {},
+            "mapper": {
+                "name": "texto_limpio",
+                "value": "{{14.text}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 900,
+                    "y": 0
+                },
+                "setupValidation": {
+                    "result": {
+                        "valid": true,
+                        "fields": []
+                    },
+                    "version": 1,
+                    "configuration": "99dfe58896170cd4"
+                },
+                "restore": {},
+                "expect": [
+                    {
+                        "name": "name",
+                        "type": "text",
+                        "label": "Variable name",
+                        "required": true
+                    },
+                    {
+                        "name": "value",
+                        "type": "any",
+                        "label": "Variable value"
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "texto_limpio",
+                        "type": "any",
+                        "label": "texto_limpio"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 5,
+            "module": "http:MakeRequest",
+            "version": 4,
+            "parameters": {
+                "tlsType": "",
+                "authenticationType": "noAuth"
+            },
+            "mapper": {
+                "url": "https://api.cohere.com/v2/chat",
+                "method": "post",
+                "headers": [
+                    {
+                        "name": "Authorization",
+                        "value": "Bearer dCISqEwrgXhKv8YEof1iRRawsX3ZI1cTyttaoTAm"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "timeout": "40",
+                "contentType": "json",
+                "inputMethod": "dataStructure",
+                "shareCookies": false,
+                "parseResponse": true,
+                "allowRedirects": true,
+                "stopOnHttpError": true,
+                "bodyDataStructure": 632046,
+                "dataStructureBodyContent": {
+                    "model": "command-r-plus-08-2024",
+                    "stream": false,
+                    "messages": [
+                        {
+                            "role": "user",
+                            "content": "Eres un asistente de un estudio contable argentino. Analiza el texto de un documento de pago y extrae SOLO los datos pedidos. Responde unicamente con un objeto JSON valido, sin texto adicional ni markdown.\r\nReglas de impuesto: si el Tipo de Pago dice \"Empleadores\", \"SICOSS\", \"SUSS\", \"SIJP\" o \"931\", el impuesto es F931. Si dice \"IVA\", el impuesto es IVA. Si dice \"Convenio Multilateral\" o \"SIFERE\", usa esos valores. Usa OTRO solo si no corresponde a ninguno.\r\nImportante: el CUIT tiene exactamente 11 digitos; copialo tal como aparece, incluyendo el digito verificador final. El periodo viene como AAAA-MM (ejemplo 2026-09) y debes devolverlo como Mmm-AAAA (Sep-2026). Los importes vienen en formato argentino: $3.438.619,56 equivale a 3438619.56.\r\nClaves: tipo_documento (VEP_PENDIENTE, COMPROBANTE_PAGO, BOLETA_SINDICAL, SIFERE u OTRO), cuit (11 digitos sin guiones), impuesto (IVA, Ganancias, F931, Bienes Personales, Convenio Multilateral, Sindicato, SIFERE u OTRO), periodo (formato Mmm-AAAA), monto (numero con punto decimal, sin simbolos ni separador de miles; usa el importe total a pagar), fecha_expiracion_vep (AAAA-MM-DD o null; es el dia de expiracion del VEP, no el vencimiento del impuesto), fecha_vencimiento (AAAA-MM-DD o null si el documento no la indica), fecha_pago (AAAA-MM-DD o null), nro_transaccion (texto o null), confianza (alta, media o baja), campos_faltantes (lista de claves que no pudiste determinar).\r\nSi un dato no aparece usa null. No incluyas nombres ni domicilios.\r\nTexto del documento: {{4.texto_limpio}}"
+                        }
+                    ],
+                    "max_tokens": "300",
+                    "temperature": "0"
+                },
+                "requestCompressedContent": true
+            },
+            "metadata": {
+                "designer": {
+                    "x": 1200,
+                    "y": 0
+                },
+                "setupValidation": {
+                    "result": {
+                        "valid": true,
+                        "fields": []
+                    },
+                    "version": 1,
+                    "configuration": "ef13018c21111eaa"
+                },
+                "restore": {
+                    "expect": {
+                        "method": {
+                            "mode": "chose",
+                            "label": "POST"
+                        },
+                        "headers": {
+                            "mode": "chose",
+                            "items": [
+                                null,
+                                null
+                            ]
+                        },
+                        "contentType": {
+                            "label": "application/jsonEnter data in the JSON format, as a string or using a data structure."
+                        },
+                        "inputMethod": {
+                            "label": "Data structureDefine the JSON body with a data structure to map or enter values for each key. JSON reserved characters are escaped automatically."
+                        },
+                        "shareCookies": {
+                            "mode": "chose"
+                        },
+                        "parseResponse": {
+                            "mode": "chose"
+                        },
+                        "allowRedirects": {
+                            "mode": "chose"
+                        },
+                        "paginationType": {
+                            "label": "Empty"
+                        },
+                        "queryParameters": {
+                            "mode": "chose"
+                        },
+                        "stopOnHttpError": {
+                            "mode": "chose"
+                        },
+                        "bodyDataStructure": {
+                            "label": "My data structure"
+                        },
+                        "dataStructureBodyContent": {
+                            "nested": {
+                                "stream": {
+                                    "mode": "chose"
+                                },
+                                "messages": {
+                                    "mode": "chose",
+                                    "items": [
+                                        null
+                                    ]
+                                }
+                            }
+                        },
+                        "requestCompressedContent": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "tlsType": {
+                            "label": "Empty"
+                        },
+                        "authenticationType": {
+                            "label": "No authenticationUse when no credentials are required for the request."
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "authenticationType",
+                        "type": "select",
+                        "label": "Authentication type",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "noAuth",
+                                "apiKeyConnection",
+                                "basicAuthConnection",
+                                "oAuth",
+                                "apiKey",
+                                "basicAuth"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "tlsType",
+                        "type": "select",
+                        "label": "Transport layer security (TLS)",
+                        "validate": {
+                            "enum": [
+                                "mTls",
+                                "tls"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "proxyKeychain",
+                        "type": "keychain:proxy",
+                        "label": "Proxy"
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "url",
+                        "type": "url",
+                        "label": "URL",
+                        "required": true
+                    },
+                    {
+                        "name": "method",
+                        "type": "select",
+                        "label": "Method",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "get",
+                                "head",
+                                "post",
+                                "put",
+                                "patch",
+                                "delete",
+                                "options"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "headers",
+                        "spec": {
+                            "name": "value",
+                            "spec": [
+                                {
+                                    "name": "name",
+                                    "type": "text",
+                                    "label": "Name",
+                                    "required": true,
+                                    "validate": {
+                                        "pattern": "^[-!#$%&'*+.^_`|~0-9A-Za-z]+$"
+                                    }
+                                },
+                                {
+                                    "name": "value",
+                                    "type": "text",
+                                    "label": "Value"
+                                }
+                            ],
+                            "type": "collection",
+                            "label": "Header"
+                        },
+                        "type": "array",
+                        "label": "Headers"
+                    },
+                    {
+                        "name": "queryParameters",
+                        "spec": {
+                            "name": "value",
+                            "spec": [
+                                {
+                                    "name": "name",
+                                    "type": "text",
+                                    "label": "Name",
+                                    "required": true
+                                },
+                                {
+                                    "name": "value",
+                                    "type": "text",
+                                    "label": "Value"
+                                }
+                            ],
+                            "type": "collection",
+                            "label": "Parameter"
+                        },
+                        "type": "array",
+                        "label": "Query parameters"
+                    },
+                    {
+                        "name": "contentType",
+                        "type": "select",
+                        "label": "Body content type",
+                        "validate": {
+                            "enum": [
+                                "json",
+                                "multipart",
+                                "urlEncoded",
+                                "custom"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "parseResponse",
+                        "type": "boolean",
+                        "label": "Parse response",
+                        "required": true
+                    },
+                    {
+                        "name": "stopOnHttpError",
+                        "type": "boolean",
+                        "label": "Return error if HTTP request fails",
+                        "required": true
+                    },
+                    {
+                        "name": "timeout",
+                        "type": "uinteger",
+                        "label": "Timeout",
+                        "validate": {
+                            "max": 300,
+                            "min": 1
+                        }
+                    },
+                    {
+                        "name": "allowRedirects",
+                        "type": "boolean",
+                        "label": "Allow redirects",
+                        "required": true
+                    },
+                    {
+                        "name": "shareCookies",
+                        "type": "boolean",
+                        "label": "Share cookies with other HTTP modules",
+                        "required": true
+                    },
+                    {
+                        "name": "requestCompressedContent",
+                        "type": "boolean",
+                        "label": "Request compressed content",
+                        "required": true
+                    },
+                    {
+                        "name": "inputMethod",
+                        "type": "select",
+                        "label": "Body input method",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "dataStructure",
+                                "jsonString"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "bodyDataStructure",
+                        "type": "udt",
+                        "label": "Body structure",
+                        "required": true
+                    },
+                    {
+                        "name": "dataStructureBodyContent",
+                        "spec": [
+                            {
+                                "name": "model",
+                                "type": "text",
+                                "label": "Model"
+                            },
+                            {
+                                "name": "messages",
+                                "spec": {
+                                    "name": "value",
+                                    "spec": [
+                                        {
+                                            "name": "role",
+                                            "type": "text",
+                                            "label": null
+                                        },
+                                        {
+                                            "name": "content",
+                                            "type": "text",
+                                            "label": null
+                                        }
+                                    ],
+                                    "type": "collection"
+                                },
+                                "type": "array",
+                                "label": "Messages"
+                            },
+                            {
+                                "name": "stream",
+                                "type": "boolean",
+                                "label": "Stream"
+                            },
+                            {
+                                "name": "max_tokens",
+                                "type": "number",
+                                "label": "Max tokens"
+                            },
+                            {
+                                "name": "temperature",
+                                "type": "number",
+                                "label": "Temperature"
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Body content"
+                    },
+                    {
+                        "name": "paginationType",
+                        "type": "select",
+                        "label": "Pagination type",
+                        "validate": {
+                            "enum": [
+                                "offsetBased",
+                                "pageBased",
+                                "urlBased",
+                                "tokenBased"
+                            ]
+                        }
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "data",
+                        "type": "any",
+                        "label": "Data"
+                    },
+                    {
+                        "name": "statusCode",
+                        "type": "number",
+                        "label": "Status Code"
+                    },
+                    {
+                        "name": "headers",
+                        "spec": [
+                            {
+                                "name": "content-length",
+                                "type": "text",
+                                "label": "Content-Length"
+                            },
+                            {
+                                "name": "content-encoding",
+                                "type": "text",
+                                "label": "Content-Encoding"
+                            },
+                            {
+                                "name": "content-type",
+                                "type": "text",
+                                "label": "Content-Type"
+                            },
+                            {
+                                "name": "server",
+                                "type": "text",
+                                "label": "Server"
+                            },
+                            {
+                                "name": "cache-control",
+                                "type": "text",
+                                "label": "Cache-Control"
+                            },
+                            {
+                                "name": "set-cookie",
+                                "spec": {
+                                    "type": "text"
+                                },
+                                "type": "array",
+                                "label": "Set-Cookie"
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Headers"
+                    }
+                ]
+            },
+            "onerror": [
+                {
+                    "id": 21,
+                    "module": "airtable:ActionCreateRecord",
+                    "version": 3,
+                    "parameters": {
+                        "__IMTCONN__": 10540738
+                    },
+                    "mapper": {
+                        "base": "appHRyWw9WN7XRVTP",
+                        "table": "tblZo1K35gR4E5MBQ",
+                        "record": {
+                            "fld6o4pbnwJOI8iEa": "Extracción",
+                            "fld8JKi6dU375eKuW": "API IA",
+                            "fldfuXj4PXORbxQos": "Falla en la llamada a Cohere"
+                        },
+                        "typecast": false,
+                        "useColumnId": false
+                    },
+                    "metadata": {
+                        "designer": {
+                            "x": 1500,
+                            "y": 150
+                        },
+                        "setupValidation": {
+                            "result": {
+                                "valid": true,
+                                "fields": []
+                            },
+                            "version": 1,
+                            "configuration": "3688285f36fbf18c"
+                        },
+                        "restore": {
+                            "expect": {
+                                "base": {
+                                    "label": "Automatización de Estudio Contable "
+                                },
+                                "table": {
+                                    "label": "Errores",
+                                    "nested": [
+                                        {
+                                            "name": "record",
+                                            "spec": [
+                                                {
+                                                    "mode": "edit",
+                                                    "name": "fld6o4pbnwJOI8iEa",
+                                                    "type": "select",
+                                                    "label": "Escenario_Origen",
+                                                    "dynamic": true,
+                                                    "options": [
+                                                        {
+                                                            "label": "Extracción",
+                                                            "value": "Extracción"
+                                                        },
+                                                        {
+                                                            "label": "Envío al cliente",
+                                                            "value": "Envío al cliente"
+                                                        },
+                                                        {
+                                                            "label": "Informe mensual",
+                                                            "value": "Informe mensual"
+                                                        }
+                                                    ],
+                                                    "validate": false
+                                                },
+                                                {
+                                                    "mode": "edit",
+                                                    "name": "fld8JKi6dU375eKuW",
+                                                    "type": "select",
+                                                    "label": "Tipo_Error",
+                                                    "dynamic": true,
+                                                    "options": [
+                                                        {
+                                                            "label": "API IA",
+                                                            "value": "API IA"
+                                                        },
+                                                        {
+                                                            "label": "Webhook",
+                                                            "value": "Webhook"
+                                                        },
+                                                        {
+                                                            "label": "Formato de Datos",
+                                                            "value": "Formato de Datos"
+                                                        },
+                                                        {
+                                                            "label": "Otro",
+                                                            "value": "Otro"
+                                                        }
+                                                    ],
+                                                    "validate": false
+                                                },
+                                                {
+                                                    "name": "fldfuXj4PXORbxQos",
+                                                    "type": "text",
+                                                    "label": "Detalle",
+                                                    "multiline": true
+                                                },
+                                                {
+                                                    "name": "fldSMtPl9iMDbuynh",
+                                                    "spec": {
+                                                        "type": "text",
+                                                        "label": "Record ID"
+                                                    },
+                                                    "type": "array",
+                                                    "label": "Vencimiento_Relacionado"
+                                                },
+                                                {
+                                                    "name": "flddS1xViO54u9OyJ",
+                                                    "spec": {
+                                                        "type": "text",
+                                                        "label": "Record ID"
+                                                    },
+                                                    "type": "array",
+                                                    "label": "Honorario_relacionado"
+                                                },
+                                                {
+                                                    "name": "fldkTt9CbBzQaBuOs",
+                                                    "spec": {
+                                                        "type": "text",
+                                                        "label": "Record ID"
+                                                    },
+                                                    "type": "array",
+                                                    "label": "Informe_Relacionado"
+                                                },
+                                                {
+                                                    "name": "fld9jLywV2sVQ7w2Q",
+                                                    "type": "boolean",
+                                                    "label": "Resuelto"
+                                                }
+                                            ],
+                                            "type": "collection",
+                                            "label": "Record"
+                                        }
+                                    ]
+                                },
+                                "record": {
+                                    "nested": {
+                                        "fld6o4pbnwJOI8iEa": {
+                                            "mode": "chose",
+                                            "label": "Extracción"
+                                        },
+                                        "fld8JKi6dU375eKuW": {
+                                            "mode": "chose",
+                                            "label": "API IA"
+                                        },
+                                        "fld9jLywV2sVQ7w2Q": {
+                                            "mode": "chose"
+                                        },
+                                        "fldSMtPl9iMDbuynh": {
+                                            "mode": "chose"
+                                        },
+                                        "flddS1xViO54u9OyJ": {
+                                            "mode": "chose"
+                                        },
+                                        "fldkTt9CbBzQaBuOs": {
+                                            "mode": "chose"
+                                        }
+                                    }
+                                },
+                                "typecast": {
+                                    "mode": "chose"
+                                },
+                                "useColumnId": {
+                                    "mode": "chose"
+                                }
+                            },
+                            "parameters": {
+                                "__IMTCONN__": {
+                                    "data": {
+                                        "scoped": "true",
+                                        "connection": "airtable3"
+                                    },
+                                    "label": "Anse's Airtable Token or Key connection (User ID: usry0i9WRmTsH426o)"
+                                }
+                            }
+                        },
+                        "parameters": [
+                            {
+                                "name": "__IMTCONN__",
+                                "type": "account:airtable3,airtable2",
+                                "label": "Connection",
+                                "required": true
+                            }
+                        ],
+                        "expect": [
+                            {
+                                "name": "base",
+                                "type": "select",
+                                "label": "Base",
+                                "required": true
+                            },
+                            {
+                                "name": "typecast",
+                                "type": "boolean",
+                                "label": "Smart links",
+                                "required": true
+                            },
+                            {
+                                "name": "useColumnId",
+                                "type": "boolean",
+                                "label": "Use column ID",
+                                "required": true
+                            },
+                            {
+                                "name": "table",
+                                "type": "select",
+                                "label": "Table",
+                                "required": true
+                            },
+                            {
+                                "name": "record",
+                                "spec": [
+                                    {
+                                        "mode": "edit",
+                                        "name": "fld6o4pbnwJOI8iEa",
+                                        "type": "select",
+                                        "label": "Escenario_Origen"
+                                    },
+                                    {
+                                        "mode": "edit",
+                                        "name": "fld8JKi6dU375eKuW",
+                                        "type": "select",
+                                        "label": "Tipo_Error"
+                                    },
+                                    {
+                                        "name": "fldfuXj4PXORbxQos",
+                                        "type": "text",
+                                        "label": "Detalle"
+                                    },
+                                    {
+                                        "name": "fldSMtPl9iMDbuynh",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "text",
+                                            "label": "Record ID"
+                                        },
+                                        "type": "array",
+                                        "label": "Vencimiento_Relacionado"
+                                    },
+                                    {
+                                        "name": "flddS1xViO54u9OyJ",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "text",
+                                            "label": "Record ID"
+                                        },
+                                        "type": "array",
+                                        "label": "Honorario_relacionado"
+                                    },
+                                    {
+                                        "name": "fldkTt9CbBzQaBuOs",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "text",
+                                            "label": "Record ID"
+                                        },
+                                        "type": "array",
+                                        "label": "Informe_Relacionado"
+                                    },
+                                    {
+                                        "name": "fld9jLywV2sVQ7w2Q",
+                                        "type": "boolean",
+                                        "label": "Resuelto"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Record"
+                            }
+                        ],
+                        "interface": [
+                            {
+                                "name": "id",
+                                "type": "text",
+                                "label": "ID"
+                            },
+                            {
+                                "name": "createdTime",
+                                "type": "date",
+                                "label": "Created time"
+                            },
+                            {
+                                "name": "ID_Error",
+                                "type": "number",
+                                "label": "ID_Error"
+                            },
+                            {
+                                "name": "Escenario_Origen",
+                                "type": "text",
+                                "label": "Escenario_Origen"
+                            },
+                            {
+                                "name": "Tipo_Error",
+                                "type": "text",
+                                "label": "Tipo_Error"
+                            },
+                            {
+                                "name": "Detalle",
+                                "type": "text",
+                                "label": "Detalle",
+                                "multiline": true
+                            },
+                            {
+                                "name": "Vencimiento_Relacionado",
+                                "spec": {
+                                    "type": "text",
+                                    "label": "Record ID"
+                                },
+                                "type": "array",
+                                "label": "Vencimiento_Relacionado"
+                            },
+                            {
+                                "name": "Honorario_relacionado",
+                                "spec": {
+                                    "type": "text",
+                                    "label": "Record ID"
+                                },
+                                "type": "array",
+                                "label": "Honorario_relacionado"
+                            },
+                            {
+                                "name": "Informe_Relacionado",
+                                "spec": {
+                                    "type": "text",
+                                    "label": "Record ID"
+                                },
+                                "type": "array",
+                                "label": "Informe_Relacionado"
+                            },
+                            {
+                                "name": "Resuelto",
+                                "type": "boolean",
+                                "label": "Resuelto"
+                            },
+                            {
+                                "name": "Fecha",
+                                "type": "date",
+                                "label": "Fecha"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "id": 8,
+            "module": "json:ParseJSON",
+            "version": 1,
+            "parameters": {
+                "type": 632143
+            },
+            "mapper": {
+                "json": "{{5.data.message.content[].text}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 1500,
+                    "y": -150
+                },
+                "setupValidation": {
+                    "result": {
+                        "valid": true,
+                        "fields": []
+                    },
+                    "version": 1,
+                    "configuration": "53726d686f6e00ab"
+                },
+                "restore": {
+                    "parameters": {
+                        "type": {
+                            "label": "datos_vep"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "type",
+                        "type": "udt",
+                        "label": "Data structure"
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "json",
+                        "type": "text",
+                        "label": "JSON string",
+                        "required": true
+                    }
+                ],
+                "interface": [
+                    {
+                        "help": "",
+                        "name": "tipo_documento",
+                        "type": "text",
+                        "label": "Tipo documento"
+                    },
+                    {
+                        "help": "",
+                        "name": "cuit",
+                        "type": "text",
+                        "label": "Cuit"
+                    },
+                    {
+                        "help": "",
+                        "name": "impuesto",
+                        "type": "text",
+                        "label": "Impuesto"
+                    },
+                    {
+                        "help": "",
+                        "name": "periodo",
+                        "type": "text",
+                        "label": "Periodo"
+                    },
+                    {
+                        "help": "",
+                        "name": "monto",
+                        "type": "number",
+                        "label": "Monto"
+                    },
+                    {
+                        "help": "",
+                        "name": "fecha_expiracion_vep",
+                        "type": "text",
+                        "label": "Fecha expiracion vep"
+                    },
+                    {
+                        "help": "",
+                        "name": "fecha_vencimiento",
+                        "type": "text",
+                        "label": "Fecha vencimiento"
+                    },
+                    {
+                        "help": "",
+                        "name": "fecha_pago",
+                        "type": "text",
+                        "label": "Fecha pago"
+                    },
+                    {
+                        "help": "",
+                        "name": "nro_transaccion",
+                        "type": "text",
+                        "label": "Nro transaccion"
+                    },
+                    {
+                        "help": "",
+                        "name": "confianza",
+                        "type": "text",
+                        "label": "Confianza"
+                    },
+                    {
+                        "help": "",
+                        "name": "campos_faltantes",
+                        "spec": {
+                            "type": "text"
+                        },
+                        "type": "array",
+                        "label": "Campos faltantes"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 9,
+            "module": "builtin:BasicRouter",
+            "version": 1,
+            "mapper": null,
+            "metadata": {
+                "designer": {
+                    "x": 1800,
+                    "y": 0
+                }
+            },
+            "routes": [
+                {
+                    "flow": [
+                        {
+                            "id": 10,
+                            "module": "airtable:ActionSearchRecords",
+                            "version": 3,
+                            "parameters": {
+                                "__IMTCONN__": 10540738
+                            },
+                            "filter": {
+                                "name": "Datos completos",
+                                "conditions": [
+                                    [
+                                        {
+                                            "a": "{{8.tipo_documento}}",
+                                            "b": "otro",
+                                            "o": "text:notequal:ci"
+                                        },
+                                        {
+                                            "a": "{{8.confianza}}",
+                                            "b": "baja",
+                                            "o": "text:notequal:ci"
+                                        },
+                                        {
+                                            "a": "{{8.monto}}",
+                                            "b": "0",
+                                            "o": "number:greater"
+                                        },
+                                        {
+                                            "a": "{{length(8.cuit)}}",
+                                            "b": "11",
+                                            "o": "text:equal"
+                                        },
+                                        {
+                                            "a": "{{8.tipo_documento}}",
+                                            "b": " otro",
+                                            "o": "text:notequal:ci"
+                                        },
+                                        {
+                                            "a": "{{8.cuit}}",
+                                            "b": "^[0-9]{11}$",
+                                            "o": "text:pattern:ci"
+                                        },
+                                        {
+                                            "a": "{{8.impuesto}}",
+                                            "b": "otro",
+                                            "o": "text:notequal:ci"
+                                        }
+                                    ]
+                                ]
+                            },
+                            "mapper": {
+                                "base": "appHRyWw9WN7XRVTP",
+                                "table": "tblwRlCjCgeehm0Pu",
+                                "formula": "{CUIT}='{{8.cuit}}'",
+                                "maxRecords": "1",
+                                "useColumnId": false
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 2100,
+                                    "y": -150
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "base": {
+                                            "mode": "chose",
+                                            "label": "Automatización de Estudio Contable "
+                                        },
+                                        "sort": {
+                                            "mode": "chose"
+                                        },
+                                        "view": {
+                                            "mode": "chose"
+                                        },
+                                        "table": {
+                                            "mode": "chose",
+                                            "label": "Clientes"
+                                        },
+                                        "fields": {
+                                            "mode": "chose"
+                                        },
+                                        "useColumnId": {
+                                            "mode": "chose"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "airtable3"
+                                            },
+                                            "label": "Anse's Airtable Token or Key connection (User ID: usry0i9WRmTsH426o)"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:airtable3,airtable2",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "base",
+                                        "type": "select",
+                                        "label": "Base",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "useColumnId",
+                                        "type": "boolean",
+                                        "label": "Use Column ID",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "table",
+                                        "type": "select",
+                                        "label": "Table",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "formula",
+                                        "type": "text",
+                                        "label": "Formula"
+                                    },
+                                    {
+                                        "name": "maxRecords",
+                                        "type": "integer",
+                                        "label": "Limit"
+                                    },
+                                    {
+                                        "name": "sort",
+                                        "spec": [
+                                            {
+                                                "name": "field",
+                                                "type": "select",
+                                                "label": "Field",
+                                                "dynamic": true,
+                                                "options": []
+                                            },
+                                            {
+                                                "name": "direction",
+                                                "type": "select",
+                                                "label": "Direction",
+                                                "options": [
+                                                    {
+                                                        "label": "Descending",
+                                                        "value": "desc"
+                                                    },
+                                                    {
+                                                        "label": "Ascending",
+                                                        "value": "asc"
+                                                    }
+                                                ]
+                                            }
+                                        ],
+                                        "type": "array",
+                                        "label": "Sort"
+                                    },
+                                    {
+                                        "name": "view",
+                                        "type": "select",
+                                        "label": "View"
+                                    },
+                                    {
+                                        "name": "fields",
+                                        "type": "select",
+                                        "label": "Output Fields",
+                                        "multiple": true
+                                    }
+                                ],
+                                "interface": [
+                                    {
+                                        "name": "__IMTLENGTH__",
+                                        "type": "uinteger",
+                                        "label": "Total number of bundles"
+                                    },
+                                    {
+                                        "name": "__IMTINDEX__",
+                                        "type": "uinteger",
+                                        "label": "Bundle order position"
+                                    },
+                                    {
+                                        "name": "id",
+                                        "type": "text",
+                                        "label": "ID"
+                                    },
+                                    {
+                                        "name": "createdTime",
+                                        "type": "date",
+                                        "label": "Created Time"
+                                    },
+                                    {
+                                        "name": "Cliente",
+                                        "type": "text",
+                                        "label": "Cliente"
+                                    },
+                                    {
+                                        "name": "CUIT",
+                                        "type": "text",
+                                        "label": "CUIT"
+                                    },
+                                    {
+                                        "name": "Terminación",
+                                        "type": "text",
+                                        "label": "Terminación"
+                                    },
+                                    {
+                                        "name": "Email",
+                                        "type": "text",
+                                        "label": "Email"
+                                    },
+                                    {
+                                        "name": "Telegram_ID",
+                                        "type": "text",
+                                        "label": "Telegram_ID"
+                                    },
+                                    {
+                                        "name": "Tipo_Honorario",
+                                        "type": "text",
+                                        "label": "Tipo_Honorario"
+                                    },
+                                    {
+                                        "name": "Monto_Fijo",
+                                        "type": "number",
+                                        "label": "Monto_Fijo"
+                                    },
+                                    {
+                                        "name": "Vencimientos",
+                                        "spec": {
+                                            "label": "Record ID"
+                                        },
+                                        "type": "array",
+                                        "label": "Vencimientos"
+                                    },
+                                    {
+                                        "name": "Honorarios",
+                                        "spec": {
+                                            "label": "Record ID"
+                                        },
+                                        "type": "array",
+                                        "label": "Honorarios"
+                                    },
+                                    {
+                                        "name": "Informes_Mensuales",
+                                        "spec": {
+                                            "label": "Record ID"
+                                        },
+                                        "type": "array",
+                                        "label": "Informes_Mensuales"
+                                    }
+                                ],
+                                "advanced": true
+                            }
+                        },
+                        {
+                            "id": 17,
+                            "module": "airtable:ActionCreateRecord",
+                            "version": 3,
+                            "parameters": {
+                                "__IMTCONN__": 10540738
+                            },
+                            "mapper": {
+                                "base": "appHRyWw9WN7XRVTP",
+                                "table": "tblFjdIEQPcNSyYuP",
+                                "record": {
+                                    "fld6tRzJiI69644xn": "{{8.fecha_vencimiento}}",
+                                    "fldDPvaKY69GwTltr": "{{8.monto}}",
+                                    "fldF4iJey816YdgOL": "Procesado por IA",
+                                    "fldiAGbaA4E8gH36s": "{{8.impuesto}}",
+                                    "fldyM0bYET7grTMBy": [
+                                        "{{10.id}}"
+                                    ]
+                                },
+                                "typecast": false,
+                                "useColumnId": false
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 2400,
+                                    "y": -300
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "base": {
+                                            "label": "Automatización de Estudio Contable "
+                                        },
+                                        "table": {
+                                            "label": "Vencimientos",
+                                            "nested": [
+                                                {
+                                                    "name": "record",
+                                                    "spec": [
+                                                        {
+                                                            "name": "fldyM0bYET7grTMBy",
+                                                            "spec": {
+                                                                "label": "Record ID"
+                                                            },
+                                                            "type": "array",
+                                                            "label": "Clientes"
+                                                        },
+                                                        {
+                                                            "mode": "edit",
+                                                            "name": "fldiAGbaA4E8gH36s",
+                                                            "type": "select",
+                                                            "label": "Tipo_Impuesto",
+                                                            "dynamic": true,
+                                                            "options": [
+                                                                {
+                                                                    "label": "IVA",
+                                                                    "value": "IVA"
+                                                                },
+                                                                {
+                                                                    "label": "GANANCIAS",
+                                                                    "value": "GANANCIAS"
+                                                                },
+                                                                {
+                                                                    "label": "F931",
+                                                                    "value": "F931"
+                                                                },
+                                                                {
+                                                                    "label": "SIFERE",
+                                                                    "value": "SIFERE"
+                                                                },
+                                                                {
+                                                                    "label": "BIENES PERSONALES",
+                                                                    "value": "BIENES PERSONALES"
+                                                                },
+                                                                {
+                                                                    "label": "CONVENIO MULTILATERIAL",
+                                                                    "value": "CONVENIO MULTILATERIAL"
+                                                                },
+                                                                {
+                                                                    "label": "SINDICATO",
+                                                                    "value": "SINDICATO"
+                                                                }
+                                                            ],
+                                                            "validate": false
+                                                        },
+                                                        {
+                                                            "name": "fld6tRzJiI69644xn",
+                                                            "time": false,
+                                                            "type": "date",
+                                                            "label": "Fecha_Vencimiento"
+                                                        },
+                                                        {
+                                                            "name": "fldDPvaKY69GwTltr",
+                                                            "type": "number",
+                                                            "label": "Monto"
+                                                        },
+                                                        {
+                                                            "name": "fldUPnYZRaaWdp3Un",
+                                                            "spec": [
+                                                                {
+                                                                    "help": "Airtable will download the file at the given url and keep its own copy of it.",
+                                                                    "name": "url",
+                                                                    "type": "text",
+                                                                    "label": "File URL"
+                                                                },
+                                                                {
+                                                                    "help": "If empty, Airtable will generate the name automatically.",
+                                                                    "name": "filename",
+                                                                    "type": "filename",
+                                                                    "label": "File name"
+                                                                }
+                                                            ],
+                                                            "type": "array",
+                                                            "label": "Documento_Origen",
+                                                            "editable": true
+                                                        },
+                                                        {
+                                                            "mode": "edit",
+                                                            "name": "fldF4iJey816YdgOL",
+                                                            "type": "select",
+                                                            "label": "Estado",
+                                                            "dynamic": true,
+                                                            "options": [
+                                                                {
+                                                                    "label": "Pendiente",
+                                                                    "value": "Pendiente"
+                                                                },
+                                                                {
+                                                                    "label": "Procesado por IA",
+                                                                    "value": "Procesado por IA"
+                                                                },
+                                                                {
+                                                                    "label": "Aprobado por Humano",
+                                                                    "value": "Aprobado por Humano"
+                                                                },
+                                                                {
+                                                                    "label": "Enviado al Cliente",
+                                                                    "value": "Enviado al Cliente"
+                                                                },
+                                                                {
+                                                                    "label": "Pagado",
+                                                                    "value": "Pagado"
+                                                                },
+                                                                {
+                                                                    "label": "Regenerado",
+                                                                    "value": "Regenerado"
+                                                                }
+                                                            ],
+                                                            "validate": false
+                                                        },
+                                                        {
+                                                            "name": "fld313kSYf3EHT2LZ",
+                                                            "time": false,
+                                                            "type": "date",
+                                                            "label": "Fecha_Envio"
+                                                        },
+                                                        {
+                                                            "name": "fldyuyXd995UqYJsq",
+                                                            "time": false,
+                                                            "type": "date",
+                                                            "label": "Fecha_Pago"
+                                                        },
+                                                        {
+                                                            "name": "fld5FE3VOiA0kiSoZ",
+                                                            "spec": {
+                                                                "label": "Record ID"
+                                                            },
+                                                            "type": "array",
+                                                            "label": "Vencimiento_Anterior"
+                                                        },
+                                                        {
+                                                            "name": "fldIxJHQxQUQkSNvs",
+                                                            "spec": {
+                                                                "label": "Record ID"
+                                                            },
+                                                            "type": "array",
+                                                            "label": "Regenerado_como"
+                                                        },
+                                                        {
+                                                            "name": "fldcC8gOrAuzzvGVG",
+                                                            "spec": {
+                                                                "label": "Record ID"
+                                                            },
+                                                            "type": "array",
+                                                            "label": "Errores"
+                                                        }
+                                                    ],
+                                                    "type": "collection",
+                                                    "label": "Record"
+                                                }
+                                            ]
+                                        },
+                                        "record": {
+                                            "nested": {
+                                                "fld5FE3VOiA0kiSoZ": {
+                                                    "mode": "chose"
+                                                },
+                                                "fldF4iJey816YdgOL": {
+                                                    "mode": "chose",
+                                                    "label": "Procesado por IA"
+                                                },
+                                                "fldIxJHQxQUQkSNvs": {
+                                                    "mode": "chose"
+                                                },
+                                                "fldUPnYZRaaWdp3Un": {
+                                                    "mode": "chose"
+                                                },
+                                                "fldcC8gOrAuzzvGVG": {
+                                                    "mode": "chose"
+                                                },
+                                                "fldiAGbaA4E8gH36s": {
+                                                    "mode": "edit"
+                                                },
+                                                "fldyM0bYET7grTMBy": {
+                                                    "mode": "chose",
+                                                    "items": [
+                                                        null
+                                                    ]
+                                                }
+                                            }
+                                        },
+                                        "typecast": {
+                                            "mode": "chose"
+                                        },
+                                        "useColumnId": {
+                                            "mode": "chose"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "airtable3"
+                                            },
+                                            "label": "Anse's Airtable Token or Key connection (User ID: usry0i9WRmTsH426o)"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:airtable3,airtable2",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "base",
+                                        "type": "select",
+                                        "label": "Base",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "typecast",
+                                        "type": "boolean",
+                                        "label": "Smart links",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "useColumnId",
+                                        "type": "boolean",
+                                        "label": "Use Column ID",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "table",
+                                        "type": "select",
+                                        "label": "Table",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "record",
+                                        "spec": [
+                                            {
+                                                "name": "fldyM0bYET7grTMBy",
+                                                "spec": {
+                                                    "name": "value",
+                                                    "label": "Record ID"
+                                                },
+                                                "type": "array",
+                                                "label": "Clientes"
+                                            },
+                                            {
+                                                "mode": "edit",
+                                                "name": "fldiAGbaA4E8gH36s",
+                                                "type": "select",
+                                                "label": "Tipo_Impuesto"
+                                            },
+                                            {
+                                                "name": "fld6tRzJiI69644xn",
+                                                "time": false,
+                                                "type": "date",
+                                                "label": "Fecha_Vencimiento"
+                                            },
+                                            {
+                                                "name": "fldDPvaKY69GwTltr",
+                                                "type": "number",
+                                                "label": "Monto"
+                                            },
+                                            {
+                                                "name": "fldUPnYZRaaWdp3Un",
+                                                "spec": [
+                                                    {
+                                                        "name": "url",
+                                                        "type": "text",
+                                                        "label": "File URL"
+                                                    },
+                                                    {
+                                                        "name": "filename",
+                                                        "type": "filename",
+                                                        "label": "File name"
+                                                    }
+                                                ],
+                                                "type": "array",
+                                                "label": "Documento_Origen"
+                                            },
+                                            {
+                                                "mode": "edit",
+                                                "name": "fldF4iJey816YdgOL",
+                                                "type": "select",
+                                                "label": "Estado"
+                                            },
+                                            {
+                                                "name": "fld313kSYf3EHT2LZ",
+                                                "time": false,
+                                                "type": "date",
+                                                "label": "Fecha_Envio"
+                                            },
+                                            {
+                                                "name": "fldyuyXd995UqYJsq",
+                                                "time": false,
+                                                "type": "date",
+                                                "label": "Fecha_Pago"
+                                            },
+                                            {
+                                                "name": "fld5FE3VOiA0kiSoZ",
+                                                "spec": {
+                                                    "name": "value",
+                                                    "label": "Record ID"
+                                                },
+                                                "type": "array",
+                                                "label": "Vencimiento_Anterior"
+                                            },
+                                            {
+                                                "name": "fldIxJHQxQUQkSNvs",
+                                                "spec": {
+                                                    "name": "value",
+                                                    "label": "Record ID"
+                                                },
+                                                "type": "array",
+                                                "label": "Regenerado_como"
+                                            },
+                                            {
+                                                "name": "fldcC8gOrAuzzvGVG",
+                                                "spec": {
+                                                    "name": "value",
+                                                    "label": "Record ID"
+                                                },
+                                                "type": "array",
+                                                "label": "Errores"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Record"
+                                    }
+                                ],
+                                "interface": [
+                                    {
+                                        "name": "id",
+                                        "type": "text",
+                                        "label": "ID"
+                                    },
+                                    {
+                                        "name": "createdTime",
+                                        "type": "date",
+                                        "label": "Created time"
+                                    },
+                                    {
+                                        "name": "Cliente",
+                                        "type": "text",
+                                        "label": "Cliente"
+                                    },
+                                    {
+                                        "name": "CUIT",
+                                        "type": "text",
+                                        "label": "CUIT"
+                                    },
+                                    {
+                                        "name": "Terminación",
+                                        "type": "text",
+                                        "label": "Terminación"
+                                    },
+                                    {
+                                        "name": "Email",
+                                        "type": "text",
+                                        "label": "Email"
+                                    },
+                                    {
+                                        "name": "Telegram_ID",
+                                        "type": "text",
+                                        "label": "Telegram_ID"
+                                    },
+                                    {
+                                        "name": "Tipo_Honorario",
+                                        "type": "text",
+                                        "label": "Tipo_Honorario"
+                                    },
+                                    {
+                                        "name": "Monto_Fijo",
+                                        "type": "number",
+                                        "label": "Monto_Fijo"
+                                    },
+                                    {
+                                        "name": "Vencimientos",
+                                        "spec": {
+                                            "type": "text",
+                                            "label": "Record ID"
+                                        },
+                                        "type": "array",
+                                        "label": "Vencimientos"
+                                    },
+                                    {
+                                        "name": "Honorarios",
+                                        "spec": {
+                                            "type": "text",
+                                            "label": "Record ID"
+                                        },
+                                        "type": "array",
+                                        "label": "Honorarios"
+                                    },
+                                    {
+                                        "name": "Informes_Mensuales",
+                                        "spec": {
+                                            "type": "text",
+                                            "label": "Record ID"
+                                        },
+                                        "type": "array",
+                                        "label": "Informes_Mensuales"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 19,
+                            "module": "google-email:sendAnEmail",
+                            "version": 4,
+                            "parameters": {
+                                "__IMTCONN__": 10542334
+                            },
+                            "mapper": {
+                                "to": [
+                                    "ansegramajo@gmail.com"
+                                ],
+                                "content": "<p>Nuevo documento procesado por IA, pendiente de aprobacion.</p><ul><li>Cliente: {{10.Cliente}}</li><li>Impuesto: {{8.impuesto}}</li><li>Monto: {{8.monto}}</li><li>Confianza de la IA: {{8.confianza}}</li></ul><p>Para aprobar, cambia el Estado a Aprobado por Humano en Airtable.</p>",
+                                "subject": "Aprobación Requerida {{8.impuesto}}",
+                                "bodyType": "rawHtml"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 2700,
+                                    "y": -300
+                                },
+                                "setupValidation": {
+                                    "result": {
+                                        "valid": true,
+                                        "fields": []
+                                    },
+                                    "version": 1,
+                                    "configuration": "bfdf822493d9bc52"
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "cc": {
+                                            "mode": "chose"
+                                        },
+                                        "to": {
+                                            "mode": "chose",
+                                            "items": [
+                                                null
+                                            ]
+                                        },
+                                        "bcc": {
+                                            "mode": "chose"
+                                        },
+                                        "from": {
+                                            "mode": "chose"
+                                        },
+                                        "bodyType": {
+                                            "label": "Raw HTML"
+                                        },
+                                        "attachments": {
+                                            "mode": "chose"
+                                        },
+                                        "emailHeaders": {
+                                            "mode": "chose"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "google-email"
+                                            },
+                                            "label": "Anse's Gmail connection (ansegramajo@gmail.com)"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:google-email",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "to",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Recipient email address",
+                                            "required": true,
+                                            "validate": true
+                                        },
+                                        "type": "array",
+                                        "label": "To",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "subject",
+                                        "type": "text",
+                                        "label": "Subject"
+                                    },
+                                    {
+                                        "name": "bodyType",
+                                        "type": "select",
+                                        "label": "Body type",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "rawHtml",
+                                                "collection"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "attachments",
+                                        "spec": {
+                                            "name": "value",
+                                            "spec": [
+                                                {
+                                                    "name": "filename",
+                                                    "type": "filename",
+                                                    "label": "File name",
+                                                    "required": true,
+                                                    "semantic": "file:name"
+                                                },
+                                                {
+                                                    "name": "data",
+                                                    "type": "buffer",
+                                                    "label": "Data",
+                                                    "required": true,
+                                                    "semantic": "file:data"
+                                                }
+                                            ],
+                                            "type": "collection",
+                                            "label": "Attachment"
+                                        },
+                                        "type": "array",
+                                        "label": "Attachments"
+                                    },
+                                    {
+                                        "name": "from",
+                                        "type": "select",
+                                        "label": "From"
+                                    },
+                                    {
+                                        "name": "cc",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Recipient email address"
+                                        },
+                                        "type": "array",
+                                        "label": "CC recipients"
+                                    },
+                                    {
+                                        "name": "bcc",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Recipient email address"
+                                        },
+                                        "type": "array",
+                                        "label": "BCC recipients"
+                                    },
+                                    {
+                                        "name": "emailHeaders",
+                                        "spec": {
+                                            "name": "value",
+                                            "spec": [
+                                                {
+                                                    "name": "key",
+                                                    "type": "text",
+                                                    "label": "Key",
+                                                    "required": true
+                                                },
+                                                {
+                                                    "name": "value",
+                                                    "type": "text",
+                                                    "label": "Value"
+                                                }
+                                            ],
+                                            "type": "collection",
+                                            "label": "Email header"
+                                        },
+                                        "type": "array",
+                                        "label": "Additional email headers"
+                                    },
+                                    {
+                                        "name": "content",
+                                        "type": "text",
+                                        "label": "Content"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "flow": [
+                        {
+                            "id": 20,
+                            "module": "airtable:ActionCreateRecord",
+                            "version": 3,
+                            "parameters": {
+                                "__IMTCONN__": 10540738
+                            },
+                            "filter": {
+                                "name": "Requiere revisión",
+                                "conditions": [
+                                    [
+                                        {
+                                            "a": "{{8.tipo_documento}}",
+                                            "b": "OTRO",
+                                            "o": "text:equal"
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "a": "{{8.impuesto}}",
+                                            "b": "OTRO",
+                                            "o": "text:equal"
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "a": "{{8.confianza}}",
+                                            "b": "baja",
+                                            "o": "text:equal"
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "a": "{{8.monto}}",
+                                            "b": "0",
+                                            "o": "number:lessorequal"
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "a": "{{8.cuit}}",
+                                            "b": "^[0-9]{11}$",
+                                            "o": "text:notpattern:ci"
+                                        }
+                                    ]
+                                ]
+                            },
+                            "mapper": {
+                                "base": "appHRyWw9WN7XRVTP",
+                                "table": "tblZo1K35gR4E5MBQ",
+                                "record": {
+                                    "fld6o4pbnwJOI8iEa": "Extracción",
+                                    "fld8JKi6dU375eKuW": "Formato de Datos",
+                                    "fldfuXj4PXORbxQos": "texto Documento no procesable. Tipo: {{8.tipo_documento}}+ / Confianza: {{8.confianza}} + / CUIT: {{8.cuit}}"
+                                },
+                                "typecast": false,
+                                "useColumnId": false
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 2100,
+                                    "y": 150
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "base": {
+                                            "label": "Automatización de Estudio Contable "
+                                        },
+                                        "table": {
+                                            "label": "Errores",
+                                            "nested": [
+                                                {
+                                                    "name": "record",
+                                                    "spec": [
+                                                        {
+                                                            "mode": "edit",
+                                                            "name": "fld6o4pbnwJOI8iEa",
+                                                            "type": "select",
+                                                            "label": "Escenario_Origen",
+                                                            "dynamic": true,
+                                                            "options": [
+                                                                {
+                                                                    "label": "Extracción",
+                                                                    "value": "Extracción"
+                                                                },
+                                                                {
+                                                                    "label": "Envío al cliente",
+                                                                    "value": "Envío al cliente"
+                                                                },
+                                                                {
+                                                                    "label": "Informe mensual",
+                                                                    "value": "Informe mensual"
+                                                                }
+                                                            ],
+                                                            "validate": false
+                                                        },
+                                                        {
+                                                            "mode": "edit",
+                                                            "name": "fld8JKi6dU375eKuW",
+                                                            "type": "select",
+                                                            "label": "Tipo_Error",
+                                                            "dynamic": true,
+                                                            "options": [
+                                                                {
+                                                                    "label": "API IA",
+                                                                    "value": "API IA"
+                                                                },
+                                                                {
+                                                                    "label": "Webhook",
+                                                                    "value": "Webhook"
+                                                                },
+                                                                {
+                                                                    "label": "Formato de Datos",
+                                                                    "value": "Formato de Datos"
+                                                                },
+                                                                {
+                                                                    "label": "Otro",
+                                                                    "value": "Otro"
+                                                                }
+                                                            ],
+                                                            "validate": false
+                                                        },
+                                                        {
+                                                            "name": "fldfuXj4PXORbxQos",
+                                                            "type": "text",
+                                                            "label": "Detalle",
+                                                            "multiline": true
+                                                        },
+                                                        {
+                                                            "name": "fldSMtPl9iMDbuynh",
+                                                            "spec": {
+                                                                "type": "text",
+                                                                "label": "Record ID"
+                                                            },
+                                                            "type": "array",
+                                                            "label": "Vencimiento_Relacionado"
+                                                        },
+                                                        {
+                                                            "name": "flddS1xViO54u9OyJ",
+                                                            "spec": {
+                                                                "type": "text",
+                                                                "label": "Record ID"
+                                                            },
+                                                            "type": "array",
+                                                            "label": "Honorario_relacionado"
+                                                        },
+                                                        {
+                                                            "name": "fldkTt9CbBzQaBuOs",
+                                                            "spec": {
+                                                                "type": "text",
+                                                                "label": "Record ID"
+                                                            },
+                                                            "type": "array",
+                                                            "label": "Informe_Relacionado"
+                                                        },
+                                                        {
+                                                            "name": "fld9jLywV2sVQ7w2Q",
+                                                            "type": "boolean",
+                                                            "label": "Resuelto"
+                                                        }
+                                                    ],
+                                                    "type": "collection",
+                                                    "label": "Record"
+                                                }
+                                            ]
+                                        },
+                                        "record": {
+                                            "nested": {
+                                                "fld6o4pbnwJOI8iEa": {
+                                                    "mode": "chose",
+                                                    "label": "Extracción"
+                                                },
+                                                "fld8JKi6dU375eKuW": {
+                                                    "mode": "chose",
+                                                    "label": "Formato de Datos"
+                                                },
+                                                "fld9jLywV2sVQ7w2Q": {
+                                                    "mode": "chose"
+                                                },
+                                                "fldSMtPl9iMDbuynh": {
+                                                    "mode": "chose"
+                                                },
+                                                "flddS1xViO54u9OyJ": {
+                                                    "mode": "chose"
+                                                },
+                                                "fldkTt9CbBzQaBuOs": {
+                                                    "mode": "chose"
+                                                }
+                                            }
+                                        },
+                                        "typecast": {
+                                            "mode": "chose"
+                                        },
+                                        "useColumnId": {
+                                            "mode": "chose"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "airtable3"
+                                            },
+                                            "label": "Anse's Airtable Token or Key connection (User ID: usry0i9WRmTsH426o)"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:airtable3,airtable2",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "base",
+                                        "type": "select",
+                                        "label": "Base",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "typecast",
+                                        "type": "boolean",
+                                        "label": "Smart links",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "useColumnId",
+                                        "type": "boolean",
+                                        "label": "Use Column ID",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "table",
+                                        "type": "select",
+                                        "label": "Table",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "record",
+                                        "spec": [
+                                            {
+                                                "mode": "edit",
+                                                "name": "fld6o4pbnwJOI8iEa",
+                                                "type": "select",
+                                                "label": "Escenario_Origen"
+                                            },
+                                            {
+                                                "mode": "edit",
+                                                "name": "fld8JKi6dU375eKuW",
+                                                "type": "select",
+                                                "label": "Tipo_Error"
+                                            },
+                                            {
+                                                "name": "fldfuXj4PXORbxQos",
+                                                "type": "text",
+                                                "label": "Detalle"
+                                            },
+                                            {
+                                                "name": "fldSMtPl9iMDbuynh",
+                                                "spec": {
+                                                    "name": "value",
+                                                    "type": "text",
+                                                    "label": "Record ID"
+                                                },
+                                                "type": "array",
+                                                "label": "Vencimiento_Relacionado"
+                                            },
+                                            {
+                                                "name": "flddS1xViO54u9OyJ",
+                                                "spec": {
+                                                    "name": "value",
+                                                    "type": "text",
+                                                    "label": "Record ID"
+                                                },
+                                                "type": "array",
+                                                "label": "Honorario_relacionado"
+                                            },
+                                            {
+                                                "name": "fldkTt9CbBzQaBuOs",
+                                                "spec": {
+                                                    "name": "value",
+                                                    "type": "text",
+                                                    "label": "Record ID"
+                                                },
+                                                "type": "array",
+                                                "label": "Informe_Relacionado"
+                                            },
+                                            {
+                                                "name": "fld9jLywV2sVQ7w2Q",
+                                                "type": "boolean",
+                                                "label": "Resuelto"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Record"
+                                    }
+                                ],
+                                "interface": [
+                                    {
+                                        "name": "id",
+                                        "type": "text",
+                                        "label": "ID"
+                                    },
+                                    {
+                                        "name": "createdTime",
+                                        "type": "date",
+                                        "label": "Created time"
+                                    },
+                                    {
+                                        "name": "ID_Error",
+                                        "type": "number",
+                                        "label": "ID_Error"
+                                    },
+                                    {
+                                        "name": "Escenario_Origen",
+                                        "type": "text",
+                                        "label": "Escenario_Origen"
+                                    },
+                                    {
+                                        "name": "Tipo_Error",
+                                        "type": "text",
+                                        "label": "Tipo_Error"
+                                    },
+                                    {
+                                        "name": "Detalle",
+                                        "type": "text",
+                                        "label": "Detalle",
+                                        "multiline": true
+                                    },
+                                    {
+                                        "name": "Vencimiento_Relacionado",
+                                        "spec": {
+                                            "type": "text",
+                                            "label": "Record ID"
+                                        },
+                                        "type": "array",
+                                        "label": "Vencimiento_Relacionado"
+                                    },
+                                    {
+                                        "name": "Honorario_relacionado",
+                                        "spec": {
+                                            "type": "text",
+                                            "label": "Record ID"
+                                        },
+                                        "type": "array",
+                                        "label": "Honorario_relacionado"
+                                    },
+                                    {
+                                        "name": "Informe_Relacionado",
+                                        "spec": {
+                                            "type": "text",
+                                            "label": "Record ID"
+                                        },
+                                        "type": "array",
+                                        "label": "Informe_Relacionado"
+                                    },
+                                    {
+                                        "name": "Resuelto",
+                                        "type": "boolean",
+                                        "label": "Resuelto"
+                                    },
+                                    {
+                                        "name": "Fecha",
+                                        "type": "date",
+                                        "label": "Fecha"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "metadata": {
+        "instant": false,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "slots": null,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "eu1.make.com",
+        "notes": []
+    }
+}
